@@ -1,0 +1,65 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col"></th>
+      <th scope="col">Tên khóa học</th>
+      <th scope="col">Mô tả</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {{#each courses}}
+      <th scope="row">{{sum @index 1}}</th>
+      <td>
+        <img src={{this.image}} alt="" class="user-avatar">
+      </td>
+      <td>{{this.name}}</td>
+      <td>{{string this.decription}}</td>
+      <td><a class="btn btn-primary" href="/courses/{{this._id}}/edit" role="button">Sửa</a></td>
+      <td><a class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#delete-modal" data-id="{{this._id}}">Xóa</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<div class="modal" tabindex="-1" id="delete-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bạn muốn xóa khóa học?</h5>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+        <p>Xác nhận xóa</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="delete-courese" class="btn btn-danger">Xóa</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Bỏ qua</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="POST" id="form-delete"></form>
+
+<script>
+    var deleteCourese = document.getElementById("delete-courese");
+    var deleteModal = document.getElementById('delete-modal');
+    var formDelete = document.getElementById("form-delete");
+    var idcourse;
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        // Lấy nút đã kích hoạt modal
+        var button = event.relatedTarget;
+
+        // Lấy giá trị từ thuộc tính data-bs-whatever
+        idcourse = button.getAttribute('data-id');
+
+        
+    });
+    deleteCourese.addEventListener('click', function() {
+        formDelete.action = `/courses/${idcourse}?_method=DELETE`; // Đường dẫn xóa khóa học
+        formDelete.submit(); // Gửi form
+    });
+
+</script>

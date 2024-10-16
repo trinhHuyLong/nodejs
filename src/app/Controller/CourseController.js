@@ -1,4 +1,3 @@
-const { response } = require('express');
 const Course = require('../models/Course');
 
 class CourseController {
@@ -22,7 +21,25 @@ class CourseController {
       formData.image = `https://i.ytimg.com/vi/${req.body.vd}/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDuqncXSnR8IZj8V3FuwhvaG254bw`
       const course = new Course(formData)
       await course.save()
-      res.send('updated course')
+        .then(() => res.redirect(`/courses/${formData.slug}`))
+    }
+    edit(req, res, next) {
+      Course.findOne({_id: req.params.id}).lean()
+        .then(course => {
+          res.render('courses/edit',{course})
+        })
+        .catch(next)
+    }
+    update(req, res, next) {
+      Course.updateOne({_id: req.params.id},req.body)
+        .then(res.redirect('/me/stored/courses'))
+        .catch(next)
+    }
+
+    delete(req, res, next) {
+      Course.deleteOne({_id: req.params.id})
+        .then(res.redirect('back'))
+        .catch(next)
     }
 }
 

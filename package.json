@@ -13,8 +13,8 @@
   "dependencies": {
     "express": "^4.19.2",
     "express-handlebars": "^8.0.1",
-    "mongoose": "^5.13.22",
-    "mongoose-slug-generator": "^1.0.4",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.7.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
